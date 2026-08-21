@@ -1,0 +1,9 @@
+<Solution>
+  <Project Path="Vivo.ApiService/Vivo.ApiService.csproj" />
+  <Project Path="Vivo.AppHost/Vivo.AppHost.csproj" />
+  <Project Path="Vivo.ServiceDefaults/Vivo.ServiceDefaults.csproj" />
+  <Project Path="Vivo.Web/Vivo.Web.esproj">
+    <BuildType Project="Debug" />
+    <Build />
+  </Project>
+</Solution>
