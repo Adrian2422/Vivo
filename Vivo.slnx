@@ -2,6 +2,9 @@
   <Project Path="src/Vivo.ApiService/Vivo.ApiService.csproj" />
   <Project Path="src/Vivo.AppHost/Vivo.AppHost.csproj" />
   <Project Path="src/Vivo.ServiceDefaults/Vivo.ServiceDefaults.csproj" />
+  <Project Path="src/Vivo.Infrastructure/Vivo.Infrastructure.csproj" />
+  <Project Path="src/Vivo.Application/Vivo.Application.csproj" />
+  <Project Path="src/Vivo.Domain/Vivo.Domain.csproj" />
   <Project Path="src/Vivo.Web/Vivo.Web.esproj">
     <BuildType Project="Debug" />
     <Build />
