@@ -1,6 +1,6 @@
-using Vivo.Application.DTOs;
-
 namespace Vivo.Application.Interfaces;
+
+using DTOs;
 
 public interface IShortenedUrlService
 {

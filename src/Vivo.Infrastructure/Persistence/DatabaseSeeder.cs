@@ -1,9 +1,9 @@
-﻿using Bogus;
-using Microsoft.EntityFrameworkCore;
-using Vivo.Domain.Entities;
-using Vivo.Infrastructure.Persistence.AppDbContext;
+﻿namespace Vivo.Infrastructure.Persistence;
 
-namespace Vivo.Infrastructure.Persistence;
+using Bogus;
+using Microsoft.EntityFrameworkCore;
+using Domain.Entities;
+using AppDbContext;
 
 public class DatabaseSeeder
 {

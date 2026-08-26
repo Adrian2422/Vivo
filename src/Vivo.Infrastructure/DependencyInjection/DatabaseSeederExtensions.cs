@@ -1,8 +1,8 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Vivo.Infrastructure.Persistence;
+﻿namespace Vivo.Infrastructure.DependencyInjection;
 
-namespace Vivo.Infrastructure.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Persistence;
 
 public static class DatabaseSeederExtensions
 {

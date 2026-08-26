@@ -6,7 +6,7 @@ using Microsoft.Extensions.Hosting;
 using Persistence;
 using Persistence.AppDbContext;
 using Microsoft.Extensions.DependencyInjection;
-using Domain.Interfaces;
+using Interfaces;
 using Repositories;
 
 public static class InfrastructureServiceCollectionExtensions

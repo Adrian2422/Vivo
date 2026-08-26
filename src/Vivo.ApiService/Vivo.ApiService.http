@@ -1,6 +1,5 @@
 @ApiService_HostAddress = http://localhost:5341
 
-GET {{ApiService_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
+# Redirect using fixed seeded url
+GET {{ApiService_HostAddress}}/lorem
+Accept: text/html

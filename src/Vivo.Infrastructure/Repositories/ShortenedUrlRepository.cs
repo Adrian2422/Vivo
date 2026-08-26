@@ -1,10 +1,9 @@
-using Vivo.Infrastructure.Persistence.AppDbContext;
-
 namespace Vivo.Infrastructure.Repositories;
 
+using Interfaces;
+using Persistence.AppDbContext;
 using Microsoft.EntityFrameworkCore;
 using Domain.Entities;
-using Domain.Interfaces;
 
 public class ShortenedUrlRepository : IShortenedUrlRepository
 {

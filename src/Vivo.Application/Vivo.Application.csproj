@@ -8,6 +8,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Vivo.Domain\Vivo.Domain.csproj" />
+      <ProjectReference Include="..\Vivo.Infrastructure\Vivo.Infrastructure.csproj" />
     </ItemGroup>
 
     <ItemGroup>

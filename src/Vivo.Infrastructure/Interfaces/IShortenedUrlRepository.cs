@@ -1,6 +1,6 @@
-using Vivo.Domain.Entities;
+namespace Vivo.Infrastructure.Interfaces;
 
-namespace Vivo.Domain.Interfaces;
+using Domain.Entities;
 
 public interface IShortenedUrlRepository
 {
