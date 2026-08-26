@@ -1,3 +1,5 @@
+using Vivo.Domain.ValueObjects;
+
 namespace Vivo.Application.Services;
 
 using DTOs;
@@ -16,7 +18,10 @@ public class ShortenedUrlService : IShortenedUrlService
 
     public async Task<string> CreateShortUrlAsync(string originalUrl, CancellationToken cancellationToken)
     {
-        var shortenedUrl = ShortenedUrlEntity.Create(originalUrl, originalUrl);
+        var targetUrl = new TargetUrl(originalUrl);
+        var shortCode = new ShortCode(originalUrl);
+        
+        var shortenedUrl = ShortenedUrlEntity.Create(shortCode, targetUrl);
         await _repository.CreateAsync(shortenedUrl, cancellationToken);
 
         return originalUrl;

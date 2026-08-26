@@ -1,3 +1,5 @@
+using Vivo.Domain.ValueObjects;
+
 namespace Vivo.Domain.Entities;
 
 public class ShortenedUrlEntity : BaseEntity
@@ -10,12 +12,12 @@ public class ShortenedUrlEntity : BaseEntity
 
     public int ClickCount { get; set; }
     
-    public static ShortenedUrlEntity Create(string code, string originalUrl)
+    public static ShortenedUrlEntity Create(ShortCode code, TargetUrl originalUrl)
     {
         return new ShortenedUrlEntity
         {
-            Code = code,
-            OriginalUrl = originalUrl
+            Code = code.Value,
+            OriginalUrl = originalUrl.Value
         };
     }
 
