@@ -1,10 +1,10 @@
+namespace Vivo.Infrastructure.DependencyInjection;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using Vivo.Infrastructure.Persistence.AppDbContext;
-
-namespace Vivo.Infrastructure.DependencyInjection;
-
+using Persistence;
+using Persistence.AppDbContext;
 using Microsoft.Extensions.DependencyInjection;
 using Domain.Interfaces;
 using Repositories;
@@ -18,7 +18,7 @@ public static class InfrastructureServiceCollectionExtensions
                                  ?? throw new InvalidOperationException("Connection string 'MvcMovieContext' not found.")));
         
         builder.Services.AddScoped<IShortenedUrlRepository, ShortenedUrlRepository>();
-
+        builder.Services.AddScoped<DatabaseSeeder>();
         return builder;
     }
 }
