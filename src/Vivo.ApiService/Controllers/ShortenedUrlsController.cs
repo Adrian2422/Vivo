@@ -1,10 +1,10 @@
-using Microsoft.AspNetCore.Mvc;
-using Vivo.ApiService.Contracts;
-using Vivo.Application.Interfaces;
-
 namespace Vivo.ApiService.Controllers;
 
-[Route("api/shortenedUrl")]
+using Microsoft.AspNetCore.Mvc;
+using Contracts;
+using Application.Interfaces;
+
+[Route("api/shortened-url")]
 public class ShortenedUrlsController : ControllerBase
 {
 
@@ -52,6 +52,6 @@ public class ShortenedUrlsController : ControllerBase
         if (originalUrl is null)
             return NotFound();
 
-        return RedirectPreserveMethod(originalUrl);
+        return Redirect(originalUrl);
     }
 }

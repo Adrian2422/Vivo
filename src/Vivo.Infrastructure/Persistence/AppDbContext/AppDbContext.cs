@@ -1,7 +1,8 @@
-using Microsoft.EntityFrameworkCore;
-using Vivo.Domain.Entities;
-
 namespace Vivo.Infrastructure.Persistence.AppDbContext;
+
+using Microsoft.EntityFrameworkCore;
+using Domain.Entities;
+
 
 public class ApplicationDbContext : DbContext
 {
