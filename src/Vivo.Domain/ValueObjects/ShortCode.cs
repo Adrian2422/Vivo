@@ -6,6 +6,7 @@ public record ShortCode
 
     public ShortCode(string value)
     {
+        
         if (string.IsNullOrWhiteSpace(value))
             throw new ArgumentException("Short code cannot be empty.", nameof(value));
 

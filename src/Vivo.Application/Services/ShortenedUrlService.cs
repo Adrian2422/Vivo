@@ -16,14 +16,15 @@ public class ShortenedUrlService : IShortenedUrlService
         _repository = repository;
     }
 
-    public async Task<string> CreateShortUrlAsync(string originalUrl, CancellationToken cancellationToken)
+    public async Task<string> CreateShortUrlAsync(string originalUrl, DateTime? requestedExpiresAt, CancellationToken cancellationToken)
     {
         var targetUrl = new TargetUrl(originalUrl);
-        var shortCode = new ShortCode(originalUrl);
-        
-        var shortenedUrl = ShortenedUrlEntity.Create(shortCode, targetUrl);
-        await _repository.CreateAsync(shortenedUrl, cancellationToken);
+        var shortCode = new ShortCode("dolor");
 
+        var shortenedUrl = ShortenedUrlEntity.Create(shortCode, targetUrl, requestedExpiresAt);
+        await _repository.CreateAsync(shortenedUrl, cancellationToken);
+        await _repository.SaveChangesAsync(cancellationToken);
+        
         return originalUrl;
     }
     

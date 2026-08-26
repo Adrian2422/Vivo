@@ -12,12 +12,13 @@ public class ShortenedUrlEntity : BaseEntity
 
     public int ClickCount { get; set; }
     
-    public static ShortenedUrlEntity Create(ShortCode code, TargetUrl originalUrl)
+    public static ShortenedUrlEntity Create(ShortCode code, TargetUrl originalUrl, DateTime? expiresAt = null)
     {
         return new ShortenedUrlEntity
         {
             Code = code.Value,
-            OriginalUrl = originalUrl.Value
+            OriginalUrl = originalUrl.Value,
+            ExpiresAt = expiresAt,
         };
     }
 
