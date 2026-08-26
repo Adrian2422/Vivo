@@ -36,9 +36,8 @@ public class ShortenedUrlsController : ControllerBase
         [FromBody] CreateShortenedUrlRequest request,
         CancellationToken cancellationToken)
     {
-        var code = await _service.CreateShortUrlAsync(request.OriginalUrl, cancellationToken);
+        var code = await _service.CreateShortUrlAsync(request.OriginalUrl, request.RequestedExpiresAt, cancellationToken);
         var shortUrl = $"{Request.Scheme}://{Request.Host}/{code}";
-
 
         return Created(shortUrl, new CreateShortenedUrlResponse(shortUrl));
     }

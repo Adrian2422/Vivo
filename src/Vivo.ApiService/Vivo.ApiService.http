@@ -3,3 +3,15 @@
 # Redirect using fixed seeded url
 GET {{ApiService_HostAddress}}/lorem
 Accept: text/html
+
+###
+
+# Shorten link
+POST {{ApiService_HostAddress}}/api/shortened-url
+Content-Type: application/json
+
+{
+  "originalUrl": "https://onet.pl"
+}
+
+###

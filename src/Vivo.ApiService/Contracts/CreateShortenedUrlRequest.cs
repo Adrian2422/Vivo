@@ -1,3 +1,3 @@
 namespace Vivo.ApiService.Contracts;
 
-public record CreateShortenedUrlRequest(string OriginalUrl);
+public record CreateShortenedUrlRequest(string OriginalUrl, DateTime? RequestedExpiresAt);
