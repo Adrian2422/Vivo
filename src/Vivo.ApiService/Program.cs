@@ -24,6 +24,8 @@ app.UseExceptionHandler();
 
 if (app.Environment.IsDevelopment())
 {
+    await app.SeedDatabaseAsync();
+    
     app.MapOpenApi();
 }
 
