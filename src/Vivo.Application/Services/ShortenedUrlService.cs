@@ -1,31 +1,39 @@
-using Vivo.Domain.ValueObjects;
-
 namespace Vivo.Application.Services;
 
 using DTOs;
 using Interfaces;
 using Domain.Entities;
-using Vivo.Infrastructure.Interfaces;
+using Domain.ValueObjects;
+using Abstractions;
+using Repositories;
 
 public class ShortenedUrlService : IShortenedUrlService
 {
     private readonly IShortenedUrlRepository _repository;
+    private readonly IShortCodeGenerator _codeGenerator;
 
-    public ShortenedUrlService(IShortenedUrlRepository repository)
+    public ShortenedUrlService(IShortenedUrlRepository repository, IShortCodeGenerator codeGenerator)
     {
         _repository = repository;
+        _codeGenerator = codeGenerator;
     }
 
     public async Task<string> CreateShortUrlAsync(string originalUrl, DateTime? requestedExpiresAt, CancellationToken cancellationToken)
     {
         var targetUrl = new TargetUrl(originalUrl);
-        var shortCode = new ShortCode("dolor");
+        
+        string code;
+        do
+        {
+            code = _codeGenerator.Generate();
+        } while (await _repository.CodeExistsAsync(code, cancellationToken));
 
-        var shortenedUrl = ShortenedUrlEntity.Create(shortCode, targetUrl, requestedExpiresAt);
+        var shortenedUrl = ShortenedUrlEntity.Create(new ShortCode(code), targetUrl, requestedExpiresAt);
+        
         await _repository.CreateAsync(shortenedUrl, cancellationToken);
         await _repository.SaveChangesAsync(cancellationToken);
         
-        return originalUrl;
+        return code;
     }
     
     public async Task<IReadOnlyList<ShortenedUrlDto>> GetRecentShortenedUrlsAsync(CancellationToken cancellationToken)
@@ -45,6 +53,9 @@ public class ShortenedUrlService : IShortenedUrlService
         var entity = await _repository.GetByCodeAsync(code, cancellationToken);
         if (entity is null || entity.IsExpired)
             return null;
+        
+        entity.RegisterClick();
+        await _repository.SaveChangesAsync(cancellationToken);
 
         return entity.OriginalUrl;
     }
