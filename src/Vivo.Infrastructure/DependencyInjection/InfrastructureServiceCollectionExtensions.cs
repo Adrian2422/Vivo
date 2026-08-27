@@ -16,8 +16,8 @@ public static class InfrastructureServiceCollectionExtensions
     public static IHostApplicationBuilder AddInfrastructureServices(this IHostApplicationBuilder builder)
     {
         builder.Services.AddDbContext<ApplicationDbContext>(options =>
-            options.UseSqlServer(builder.Configuration.GetConnectionString("vivo-db")
-                                 ?? throw new InvalidOperationException("Connection string 'MvcMovieContext' not found.")));
+            options.UseSqlServer(builder.Configuration.GetConnectionString("VivoDb")
+                                 ?? throw new InvalidOperationException("Connection string 'VivoDb' not found.")));
         
         builder.Services.AddScoped<IShortenedUrlRepository, ShortenedUrlRepository>();
         builder.Services.AddSingleton<IShortCodeGenerator, Base62ShortCodeGenerator>();
