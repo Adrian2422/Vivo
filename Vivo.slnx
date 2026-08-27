@@ -9,4 +9,5 @@
     <BuildType Project="Debug" />
     <Build />
   </Project>
+  <Project Path="tests/Vivo.ApiService.UnitTests/Vivo.ApiService.UnitTests.csproj" />
 </Solution>
