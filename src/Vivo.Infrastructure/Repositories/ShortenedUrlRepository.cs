@@ -24,19 +24,19 @@ public class ShortenedUrlRepository : IShortenedUrlRepository
     {
         await _context.ShortenedUrls.AddAsync(shortenedUrlEntity, cancellationToken);
     }
-    
+
     public async Task SaveChangesAsync(CancellationToken cancellationToken)
     {
         await _context.SaveChangesAsync(cancellationToken);
     }
-    
+
     public async Task<ShortenedUrlEntity?> GetByCodeAsync(string code, CancellationToken cancellationToken)
     {
         return await _context.ShortenedUrls
             .AsNoTracking()
             .FirstOrDefaultAsync(x => x.Code == code, cancellationToken);
     }
-    
+
     public async Task<bool> CodeExistsAsync(string code, CancellationToken cancellationToken)
     {
         return await _context.ShortenedUrls

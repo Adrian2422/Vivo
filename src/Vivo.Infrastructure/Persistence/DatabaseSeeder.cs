@@ -36,9 +36,9 @@ public class DatabaseSeeder
                 f => $"{f.Internet.Protocol()}://{f.Internet.DomainName()}")
             .RuleFor(x => x.Code, f => f.Random.AlphaNumeric(7))
             .RuleFor(x => x.ExpiresAt, f => f.Date.Future(1).ToUniversalTime());
-        
+
         var urls = urlsFaker.Generate(totalUrls);
-        
+
         await _context.ShortenedUrls.AddAsync(fixedUrl);
         _context.ShortenedUrls.AddRange(urls);
         await _context.SaveChangesAsync();

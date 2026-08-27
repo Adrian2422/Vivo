@@ -3,7 +3,7 @@
 using System.Security.Cryptography;
 using Application.Abstractions;
 
-public class Base62ShortCodeGenerator: IShortCodeGenerator
+public class Base62ShortCodeGenerator : IShortCodeGenerator
 {
     private const string Alphabet = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
     private const int CodeLength = 7;
