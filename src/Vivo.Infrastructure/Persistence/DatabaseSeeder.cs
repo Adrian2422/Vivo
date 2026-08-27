@@ -34,7 +34,7 @@ public class DatabaseSeeder
         var urlsFaker = new Faker<ShortenedUrlEntity>()
             .RuleFor(x => x.OriginalUrl,
                 f => $"{f.Internet.Protocol()}://{f.Internet.DomainName()}")
-            .RuleFor(x => x.Code, f => f.Random.AlphaNumeric(8))
+            .RuleFor(x => x.Code, f => f.Random.AlphaNumeric(7))
             .RuleFor(x => x.ExpiresAt, f => f.Date.Future(1).ToUniversalTime());
         
         var urls = urlsFaker.Generate(totalUrls);

@@ -1,9 +1,10 @@
+
 namespace Vivo.Infrastructure.Repositories;
 
 using Microsoft.EntityFrameworkCore;
 using Persistence.AppDbContext;
 using Domain.Entities;
-using Application.Interfaces;
+using Vivo.Application.Repositories;
 
 public class ShortenedUrlRepository : IShortenedUrlRepository
 {
@@ -34,5 +35,12 @@ public class ShortenedUrlRepository : IShortenedUrlRepository
         return await _context.ShortenedUrls
             .AsNoTracking()
             .FirstOrDefaultAsync(x => x.Code == code, cancellationToken);
+    }
+    
+    public async Task<bool> CodeExistsAsync(string code, CancellationToken cancellationToken)
+    {
+        return await _context.ShortenedUrls
+            .AsNoTracking()
+            .AnyAsync(x => x.Code == code, cancellationToken);
     }
 }

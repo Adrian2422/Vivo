@@ -1,7 +1,7 @@
-﻿namespace Vivo.Infrastructure.services;
+﻿namespace Vivo.Infrastructure.Services;
 
 using System.Security.Cryptography;
-using Application.Interfaces;
+using Application.Abstractions;
 
 public class Base62ShortCodeGenerator: IShortCodeGenerator
 {

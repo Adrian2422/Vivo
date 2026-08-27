@@ -7,7 +7,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Persistence;
 using Persistence.AppDbContext;
 using Repositories;
-using Application.Interfaces;
+using Application.Abstractions;
+using Vivo.Application.Repositories;
+using Services;
 
 public static class InfrastructureServiceCollectionExtensions
 {
@@ -18,7 +20,9 @@ public static class InfrastructureServiceCollectionExtensions
                                  ?? throw new InvalidOperationException("Connection string 'MvcMovieContext' not found.")));
         
         builder.Services.AddScoped<IShortenedUrlRepository, ShortenedUrlRepository>();
+        builder.Services.AddSingleton<IShortCodeGenerator, Base62ShortCodeGenerator>();
         builder.Services.AddScoped<DatabaseSeeder>();
+
         return builder;
     }
 }

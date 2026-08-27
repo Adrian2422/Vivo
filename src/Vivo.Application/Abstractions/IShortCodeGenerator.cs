@@ -1,4 +1,4 @@
-﻿namespace Vivo.Application.Interfaces;
+﻿namespace Vivo.Application.Abstractions;
 
 public interface IShortCodeGenerator
 {
