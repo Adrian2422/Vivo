@@ -5,7 +5,6 @@ namespace Vivo.Application.Services;
 using DTOs;
 using Interfaces;
 using Domain.Entities;
-using Vivo.Infrastructure.Interfaces;
 
 public class ShortenedUrlService : IShortenedUrlService
 {

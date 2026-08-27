@@ -1,4 +1,4 @@
-namespace Vivo.Infrastructure.Interfaces;
+namespace Vivo.Application.Interfaces;
 
 using Domain.Entities;
 

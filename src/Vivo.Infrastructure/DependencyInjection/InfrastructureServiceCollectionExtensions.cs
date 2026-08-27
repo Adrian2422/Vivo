@@ -3,11 +3,11 @@ namespace Vivo.Infrastructure.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.DependencyInjection;
 using Persistence;
 using Persistence.AppDbContext;
-using Microsoft.Extensions.DependencyInjection;
-using Interfaces;
 using Repositories;
+using Application.Interfaces;
 
 public static class InfrastructureServiceCollectionExtensions
 {

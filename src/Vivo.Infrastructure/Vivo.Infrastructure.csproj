@@ -20,7 +20,11 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Vivo.Domain\Vivo.Domain.csproj" />
+      <ProjectReference Include="..\Vivo.Application\Vivo.Application.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Interfaces\" />
     </ItemGroup>
 
 </Project>
