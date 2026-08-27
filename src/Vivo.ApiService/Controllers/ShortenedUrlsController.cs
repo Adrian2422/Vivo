@@ -1,5 +1,6 @@
 namespace Vivo.ApiService.Controllers;
 
+using Swashbuckle.AspNetCore.Annotations;
 using Microsoft.AspNetCore.Mvc;
 using Contracts;
 using Application.Interfaces;
@@ -16,7 +17,13 @@ public class ShortenedUrlsController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetRecentShortenedUrls(CancellationToken cancellationToken)
+    [SwaggerOperation(
+        Summary = "Get recently shortened urls",
+        Description = "Retrieve 10 recently shortened urls",
+        OperationId = "GetRecentShortenedUrls",
+        Tags = ["ShortenedUrls"]
+    )]
+    public async Task<ActionResult<List<ShortenedUrlResponse>>> GetRecentShortenedUrls(CancellationToken cancellationToken)
     {
         var items = await _service.GetRecentShortenedUrlsAsync(cancellationToken);
         var baseUrl = $"{Request.Scheme}://{Request.Host}";
@@ -32,7 +39,13 @@ public class ShortenedUrlsController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateAsync(
+    [SwaggerOperation(
+        Summary = "Create new shortened url",
+        Description = "Retrieve url, shorten it and store in database",
+        OperationId = "CreateAsync",
+        Tags = ["ShortenedUrls"]
+    )]
+    public async Task<ActionResult<CreateShortenedUrlResponse>> CreateAsync(
         [FromBody] CreateShortenedUrlRequest request,
         CancellationToken cancellationToken)
     {
@@ -43,8 +56,17 @@ public class ShortenedUrlsController : ControllerBase
     }
 
     [HttpGet("/{code}")]
-    public async Task<IActionResult> RedirectToOriginal(
-        string code,
+    [SwaggerOperation(
+        Summary = "Get url and redirect",
+        Description = "Retrieve url, read its original url and redirect",
+        OperationId = "RedirectToOriginal",
+        Tags = ["ShortenedUrls"]
+    )]
+    [Produces("text/html")]
+    [ProducesResponseType(StatusCodes.Status302Found)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult> RedirectToOriginal(
+        [FromRoute] string code,
         CancellationToken cancellationToken)
     {
         var originalUrl = await _service.ResolveOriginalUrlAsync(code, cancellationToken);
