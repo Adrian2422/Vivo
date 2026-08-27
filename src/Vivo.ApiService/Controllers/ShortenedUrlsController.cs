@@ -14,7 +14,7 @@ public class ShortenedUrlsController : ControllerBase
     {
         _service = service;
     }
-    
+
     [HttpGet]
     public async Task<IActionResult> GetRecentShortenedUrls(CancellationToken cancellationToken)
     {
@@ -30,7 +30,7 @@ public class ShortenedUrlsController : ControllerBase
 
         return Ok(response);
     }
-    
+
     [HttpPost]
     public async Task<IActionResult> CreateAsync(
         [FromBody] CreateShortenedUrlRequest request,
@@ -41,7 +41,7 @@ public class ShortenedUrlsController : ControllerBase
 
         return Created(shortUrl, new CreateShortenedUrlResponse(shortUrl));
     }
-    
+
     [HttpGet("/{code}")]
     public async Task<IActionResult> RedirectToOriginal(
         string code,

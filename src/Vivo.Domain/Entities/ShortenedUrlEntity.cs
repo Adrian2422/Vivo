@@ -5,13 +5,13 @@ namespace Vivo.Domain.Entities;
 public class ShortenedUrlEntity : BaseEntity
 {
     public required string Code { get; init; }
-    
+
     public required string OriginalUrl { get; init; }
-    
+
     public DateTime? ExpiresAt { get; init; }
 
     public int ClickCount { get; set; }
-    
+
     public static ShortenedUrlEntity Create(ShortCode code, TargetUrl originalUrl, DateTime? expiresAt = null)
     {
         return new ShortenedUrlEntity
@@ -23,6 +23,6 @@ public class ShortenedUrlEntity : BaseEntity
     }
 
     public void RegisterClick() => ClickCount++;
-    
+
     public bool IsExpired => ExpiresAt.HasValue && ExpiresAt.Value < DateTime.UtcNow;
 }

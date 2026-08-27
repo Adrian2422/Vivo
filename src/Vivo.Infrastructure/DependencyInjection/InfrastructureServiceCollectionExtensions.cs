@@ -18,7 +18,7 @@ public static class InfrastructureServiceCollectionExtensions
         builder.Services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer(builder.Configuration.GetConnectionString("VivoDb")
                                  ?? throw new InvalidOperationException("Connection string 'VivoDb' not found.")));
-        
+
         builder.Services.AddScoped<IShortenedUrlRepository, ShortenedUrlRepository>();
         builder.Services.AddSingleton<IShortCodeGenerator, Base62ShortCodeGenerator>();
         builder.Services.AddScoped<DatabaseSeeder>();
