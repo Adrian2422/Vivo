@@ -2,8 +2,12 @@
   <PropertyGroup>
     <ShouldRunNpmInstall>false</ShouldRunNpmInstall>
     <ShouldRunBuildScript>false</ShouldRunBuildScript>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>
   <ItemGroup>
+    <Script Include="..\..\.dockerignore">
+      <Link>.dockerignore</Link>
+    </Script>
     <Script Include="tsconfig.json" />
   </ItemGroup>
 </Project>

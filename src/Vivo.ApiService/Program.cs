@@ -30,12 +30,9 @@ builder.Services.AddWebCors(builder.Environment, builder.Configuration);
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-app.UseExceptionHandler();
-
 if (app.Environment.IsDevelopment())
 {
-    await app.SeedDatabaseAsync();
+    await app.MigrateAndSeedDatabaseAsync();
 
     app.UseSwagger();
     app.UseSwaggerUI(options =>

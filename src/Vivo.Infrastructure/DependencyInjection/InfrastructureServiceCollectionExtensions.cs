@@ -15,9 +15,20 @@ public static class InfrastructureServiceCollectionExtensions
 {
     public static IHostApplicationBuilder AddInfrastructureServices(this IHostApplicationBuilder builder)
     {
+        var connectionString = builder.Configuration.GetConnectionString("VivoDb")
+                               ?? throw new InvalidOperationException("Connection string 'VivoDb' not found.");
+
         builder.Services.AddDbContext<ApplicationDbContext>(options =>
-            options.UseSqlServer(builder.Configuration.GetConnectionString("VivoDb")
-                                 ?? throw new InvalidOperationException("Connection string 'VivoDb' not found.")));
+            options.UseSqlServer(connectionString, sqlOptions =>
+            {
+                sqlOptions.EnableRetryOnFailure(
+                    maxRetryCount: 5,
+                    maxRetryDelay: TimeSpan.FromSeconds(30),
+                    errorNumbersToAdd: null);
+            }));
+
+        builder.Services.AddHealthChecks()
+            .AddDbContextCheck<ApplicationDbContext>("database", tags: ["ready"]);
 
         builder.Services.AddScoped<IShortenedUrlRepository, ShortenedUrlRepository>();
         builder.Services.AddSingleton<IShortCodeGenerator, Base62ShortCodeGenerator>();

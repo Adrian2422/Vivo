@@ -1,0 +1,42 @@
+﻿services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=${DB_PASSWORD}
+    ports:
+      - "1433:1433"
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P '${DB_PASSWORD}' -C -Q 'SELECT 1' || exit 1"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  migrator:
+    image: vivo-migrator:latest
+    command: ["--connection", "Server=sqlserver,1433;Database=VivoDb;User Id=sa;Password=${DB_PASSWORD};TrustServerCertificate=True;"]
+    depends_on:
+      sqlserver:
+        condition: service_healthy
+    restart: "no"
+
+  api:
+    image: vivo-api:latest
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ConnectionStrings__VivoDb=Server=sqlserver;Database=VivoDb;User Id=sa;Password=${DB_PASSWORD};TrustServerCertificate=True;
+      - Cors__AllowedOrigins__0=http://localhost:8080
+    ports:
+      - "5000:8080"
+    depends_on:
+      sqlserver:
+        condition: service_healthy
+      migrator:
+        condition: service_completed_successfully
+
+  web:
+    image: vivo-web:latest
+    ports:
+      - "8080:80"
+    depends_on:
+      - api
