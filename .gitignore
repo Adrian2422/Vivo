@@ -365,3 +365,6 @@ FodyWeavers.xsd
 # Test Coverage
 coverage-report/
 **/TestResults/
+
+# Secrets
+.env
