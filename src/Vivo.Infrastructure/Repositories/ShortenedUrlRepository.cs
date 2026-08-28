@@ -33,7 +33,6 @@ public class ShortenedUrlRepository : IShortenedUrlRepository
     public async Task<ShortenedUrlEntity?> GetByCodeAsync(string code, CancellationToken cancellationToken)
     {
         return await _context.ShortenedUrls
-            .AsNoTracking()
             .FirstOrDefaultAsync(x => x.Code == code, cancellationToken);
     }
 
