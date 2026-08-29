@@ -11,7 +11,7 @@ public static class DatabaseSeederExtensions
     public static async Task MigrateAndSeedDatabaseAsync(this IHost host)
     {
         using var scope = host.Services.CreateScope();
-        
+
         var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
 
         await dbContext.Database.MigrateAsync();
