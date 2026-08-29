@@ -11,5 +11,6 @@
   </Project>
   <Project Path="tests/Vivo.ApiService.UnitTests/Vivo.ApiService.UnitTests.csproj" />
   <Project Path="tests/Vivo.Application.UnitTests/Vivo.Application.UnitTests.csproj" />
+  <Project Path="tests/Vivo.Domain.UnitTests/Vivo.Domain.UnitTests.csproj" />
   <Project Path="tests/Vivo.Infrastructure.UnitTests/Vivo.Infrastructure.UnitTests.csproj" />
 </Solution>
