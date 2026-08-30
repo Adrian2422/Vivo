@@ -14,7 +14,7 @@ public class ShortenedUrlServiceTests
     private readonly Mock<IShortenedUrlRepository> _repositoryMock;
     private readonly Mock<IShortCodeGenerator> _codeGeneratorMock;
     private readonly ShortenedUrlService _service;
-    
+
     public ShortenedUrlServiceTests()
     {
         _repositoryMock = new Mock<IShortenedUrlRepository>();
@@ -40,11 +40,11 @@ public class ShortenedUrlServiceTests
             .Setup(r => r.CreateAsync(entity, cancellationToken));
 
         var result = await _service.CreateShortUrlAsync(originalUrl, null, cancellationToken);
-        
+
         result.ShouldBeOfType<String>();
         result.ShouldBe(code);
     }
-    
+
     [Trait("Category", "CreateShortUrlAsync")]
     [Fact]
     public async Task CreateShortUrlAsync_WhenGeneratedCodeAlreadyExists_ShouldRegenerateCodeUntilUnique()
@@ -77,7 +77,7 @@ public class ShortenedUrlServiceTests
         _repositoryMock.Verify(r => r.CreateAsync(It.Is<ShortenedUrlEntity>(e => e.Code == uniqueCode && e.OriginalUrl == originalUrl), cancellationToken), Times.Once);
         _repositoryMock.Verify(r => r.SaveChangesAsync(cancellationToken), Times.Once);
     }
-    
+
     [Trait("Category", "CreateShortUrlAsync")]
     [Fact]
     public async Task CreateShortUrlAsync_WhenInvalidUrlProvided_ShouldThrowArgumentException()
@@ -92,7 +92,7 @@ public class ShortenedUrlServiceTests
         _repositoryMock.VerifyNoOtherCalls();
         _codeGeneratorMock.VerifyNoOtherCalls();
     }
-    
+
     [Trait("Category", "ResolveOriginalUrlAsync")]
     [Fact]
     public async Task ResolveOriginalUrlAsync_WhenCodeExistsAndIsNotExpired_ShouldRegisterClickSaveChangesAndReturnOriginalUrl()
@@ -105,7 +105,7 @@ public class ShortenedUrlServiceTests
             Code = code,
             OriginalUrl = originalUrl
         };
-        
+
         _repositoryMock
             .Setup(r => r.GetByCodeAsync(code, cancellationToken))
             .ReturnsAsync(entity);
@@ -118,7 +118,7 @@ public class ShortenedUrlServiceTests
         _repositoryMock.Verify(s => s.GetByCodeAsync(code, cancellationToken), Times.Once);
         _repositoryMock.Verify(s => s.SaveChangesAsync(cancellationToken), Times.Once);
     }
-    
+
     [Trait("Category", "ResolveOriginalUrlAsync")]
     [Fact]
     public async Task ResolveOriginalUrlAsync_WhenCodeDoesNotExist_ShouldReturnNullAndNotSaveChanges()
@@ -126,7 +126,7 @@ public class ShortenedUrlServiceTests
         var code = "aaaaaaa";
         var cancellationToken = CancellationToken.None;
         ShortenedUrlEntity? notFoundEntity = null;
-        
+
         _repositoryMock
             .Setup(r => r.GetByCodeAsync(code, cancellationToken))
             .ReturnsAsync(notFoundEntity);
@@ -138,7 +138,7 @@ public class ShortenedUrlServiceTests
         _repositoryMock.Verify(s => s.GetByCodeAsync(code, cancellationToken), Times.Once);
         _repositoryMock.Verify(s => s.SaveChangesAsync(cancellationToken), Times.Never);
     }
-    
+
     [Trait("Category", "ResolveOriginalUrlAsync")]
     [Fact]
     public async Task ResolveOriginalUrlAsync_WhenCodeIsExpired_ShouldReturnNullAndNotRegisterClick()
@@ -152,7 +152,7 @@ public class ShortenedUrlServiceTests
             OriginalUrl = originalUrl,
             ExpiresAt = DateTime.UtcNow.Subtract(TimeSpan.FromHours(1))
         };
-        
+
         _repositoryMock
             .Setup(r => r.GetByCodeAsync(code, cancellationToken))
             .ReturnsAsync(entity);
@@ -178,7 +178,7 @@ public class ShortenedUrlServiceTests
                 OriginalUrl = "https://wp.pl"
             }
         };
-        
+
         _repositoryMock
             .Setup(r => r.GetRecentShortenedUrls(cancellationToken))
             .ReturnsAsync(items);
@@ -188,14 +188,14 @@ public class ShortenedUrlServiceTests
         result.ShouldBeOfType<List<ShortenedUrlDto>>();
         result.Count.ShouldBe(1);
     }
-    
+
     [Trait("Category", "GetRecentShortenedUrlsAsync")]
     [Fact]
     public async Task GetRecentShortenedUrlsAsync_WhenNoUrlsExist_ShouldReturnEmptyList()
     {
         var cancellationToken = CancellationToken.None;
         List<ShortenedUrlEntity> items = [];
-        
+
         _repositoryMock
             .Setup(r => r.GetRecentShortenedUrls(cancellationToken))
             .ReturnsAsync(items);
@@ -203,6 +203,6 @@ public class ShortenedUrlServiceTests
         var result = await _service.GetRecentShortenedUrlsAsync(cancellationToken);
 
         result.ShouldBeOfType<List<ShortenedUrlDto>>();
-        result.Count.ShouldBe(0); 
+        result.Count.ShouldBe(0);
     }
 }

@@ -1,0 +1,41 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <Configuration Condition="'$(Configuration)' == ''">Release</Configuration>
+    </PropertyGroup>
+
+    <Target Name="RestoreSolution">
+        <Message Text="=== RESTORE SOLUTION ===" Importance="high"/>
+        <Exec Command="dotnet restore Vivo.slnx" />
+    </Target>
+
+    <Target Name="BuildSolution">
+        <Message Text="=== BUILD SOLUTION ===" Importance="high"/>
+        <Exec Command="dotnet build Vivo.slnx --no-restore --configuration $(Configuration)" />
+    </Target>
+
+    <Target Name="UnitTest">
+        <Message Text="=== RUNNING UNIT TESTS ===" Importance="high"/>
+        <Exec Command="dotnet test Vivo.slnx --no-build --configuration $(Configuration) --filter &quot;Category!=Integration&quot;" />
+    </Target>
+
+    <Target Name="TestSolution">
+        <Message Text="=== RUNNING ALL TESTS ===" Importance="high"/>
+        <Exec Command="dotnet test Vivo.slnx --no-build --configuration $(Configuration)" />
+    </Target>
+
+    <Target Name="Coverage">
+        <Message Text="=== RESTORE TOOLS ===" Importance="high"/>
+        <Exec Command="dotnet tool restore" />
+
+        <Message Text="=== RUNNING TESTS WITH COVERAGE ===" Importance="high"/>
+        <Exec Command="dotnet test Vivo.slnx --no-build --configuration $(Configuration) --collect:&quot;XPlat Code Coverage&quot; --results-directory ./coverage" />
+
+        <Message Text="=== GENERATING HTML REPORT ===" Importance="high"/>
+        <Exec Command="dotnet reportgenerator -reports:coverage/**/coverage.cobertura.xml -targetdir:CoverageReport -reporttypes:Html" />
+    </Target>
+
+    <Target Name="All" DependsOnTargets="RestoreSolution;BuildSolution;Coverage" />
+
+</Project>

@@ -10,13 +10,13 @@ public class ShortenedUrlEntityTests
     {
         var originalUrl = "https://wp.pl";
         var code = "abc1234";
-        
+
         var entity = new ShortenedUrlEntity()
         {
             OriginalUrl = originalUrl,
             Code = code
         };
-        
+
         entity.OriginalUrl.ShouldBe(originalUrl);
         entity.Code.ShouldBe(code);
         entity.ClickCount.ShouldBe(0);
@@ -28,7 +28,7 @@ public class ShortenedUrlEntityTests
     {
         var originalUrl = "https://wp.pl";
         var code = "abc1234";
-        
+
         var entity = new ShortenedUrlEntity()
         {
             OriginalUrl = originalUrl,
@@ -44,13 +44,13 @@ public class ShortenedUrlEntityTests
     {
         var originalUrl = "https://wp.pl";
         var code = "abc1234";
-        
+
         var entity = new ShortenedUrlEntity()
         {
             OriginalUrl = originalUrl,
             Code = code
         };
-        
+
         entity.IsExpired.ShouldBe(false);
     }
 
@@ -60,14 +60,14 @@ public class ShortenedUrlEntityTests
         var originalUrl = "https://wp.pl";
         var code = "abc1234";
         var expiresInOneHour = DateTime.UtcNow.Add(TimeSpan.FromHours(1));
-        
+
         var entity = new ShortenedUrlEntity()
         {
             OriginalUrl = originalUrl,
             Code = code,
             ExpiresAt = expiresInOneHour
         };
-        
+
         entity.IsExpired.ShouldBe(false);
     }
 
@@ -77,15 +77,15 @@ public class ShortenedUrlEntityTests
         var originalUrl = "https://wp.pl";
         var code = "abc1234";
         var hourAgoFromNow = DateTime.UtcNow.Subtract(TimeSpan.FromHours(1));
-        
+
         var entity = new ShortenedUrlEntity()
         {
             OriginalUrl = originalUrl,
             Code = code,
             ExpiresAt = hourAgoFromNow
         };
-        
+
         entity.IsExpired.ShouldBe(true);
     }
-    
+
 }
