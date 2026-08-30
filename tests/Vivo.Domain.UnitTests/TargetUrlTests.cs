@@ -15,15 +15,13 @@ public class TargetUrlTests
         targetUrl.Value.ShouldBe(url);
     }
 
-    [Fact]
-    public void Constructor_WhenValueIsNullOrWhiteSpace_ShouldThrowArgumentException()
+    [Theory]
+    [InlineData(null)]
+    [InlineData("")]
+    [InlineData("   ")]
+    public void Constructor_WhenValueIsNullOrWhiteSpace_ShouldThrowArgumentException(string? value)
     {
-        var url = "";
-        
-        var result = () =>  new TargetUrl(url);
-        result.ShouldThrow<ArgumentException>();
-
-        url = null;
+        var result = () =>  new TargetUrl(value);
         result.ShouldThrow<ArgumentException>();
     }
 
@@ -52,7 +50,7 @@ public class TargetUrlTests
         var url = "https://wp.pl";
         var targetUrl = new TargetUrl(url);
         
-        targetUrl.ToString().ShouldBeOfType<string>();
-        targetUrl.ToString().ShouldBe(url);
+        var result = targetUrl.ToString();
+        result.ShouldBe(url);
     }
 }

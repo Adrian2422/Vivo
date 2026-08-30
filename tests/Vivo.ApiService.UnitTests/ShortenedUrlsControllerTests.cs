@@ -67,7 +67,8 @@ public class ShortenedUrlsControllerTests
         var result = await _controller.GetRecentShortenedUrls(cancellationToken);
 
         var okResult = result.Result.ShouldBeOfType<OkObjectResult>();
-        result.Value?.Count.ShouldBe(0);
+        var items = okResult.Value.ShouldBeOfType<List<ShortenedUrlResponse>>();
+        items.ShouldBeEmpty();
         okResult.StatusCode.ShouldBe(StatusCodes.Status200OK);
 
         _serviceMock.Verify(s => s.GetRecentShortenedUrlsAsync(cancellationToken), Times.Once);

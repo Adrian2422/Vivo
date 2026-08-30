@@ -59,7 +59,7 @@ public class ShortenedUrlEntityTests
     {
         var originalUrl = "https://wp.pl";
         var code = "abc1234";
-        var expiresInOneHour = DateTime.UtcNow.Add(new TimeSpan(3600));
+        var expiresInOneHour = DateTime.UtcNow.Add(TimeSpan.FromHours(1));
         
         var entity = new ShortenedUrlEntity()
         {
@@ -76,7 +76,7 @@ public class ShortenedUrlEntityTests
     {
         var originalUrl = "https://wp.pl";
         var code = "abc1234";
-        var hourAgoFromNow = DateTime.UtcNow.Subtract(new TimeSpan(3600));
+        var hourAgoFromNow = DateTime.UtcNow.Subtract(TimeSpan.FromHours(1));
         
         var entity = new ShortenedUrlEntity()
         {

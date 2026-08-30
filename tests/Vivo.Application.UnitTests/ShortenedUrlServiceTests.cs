@@ -150,7 +150,7 @@ public class ShortenedUrlServiceTests
         {
             Code = code,
             OriginalUrl = originalUrl,
-            ExpiresAt = DateTime.UtcNow.Subtract(new TimeSpan(3600))
+            ExpiresAt = DateTime.UtcNow.Subtract(TimeSpan.FromHours(1))
         };
         
         _repositoryMock

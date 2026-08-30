@@ -15,17 +15,14 @@ public class ShortCodeTests
         shortCode.Value.ShouldBe(code);
     }
 
-    [Fact]
-    public void Constructor_WhenValueIsNullOrWhiteSpace_ShouldThrowArgumentException()
+    [Theory]
+    [InlineData(null)]
+    [InlineData(" ")]
+    [InlineData("")]
+    public void Constructor_WhenValueIsNullOrWhiteSpace_ShouldThrowArgumentException(string? value)
     {
-        var codeWithNull = () => new ShortCode(null);
+        var codeWithNull = () => new ShortCode(value);
         codeWithNull.ShouldThrow<ArgumentException>();
-        
-        var codeWithSpace = () => new ShortCode("ab 1234");
-        codeWithSpace.ShouldThrow<ArgumentException>();
-
-        var emptyCode = () => new ShortCode("");
-        emptyCode.ShouldThrow<ArgumentException>();
     }
 
     [Fact]
@@ -42,20 +39,25 @@ public class ShortCodeTests
         shortCode.ShouldThrow<ArgumentException>();
     }
 
-    [Fact]
-    public void Constructor_WhenValueContainsSpecialCharactersOrWhitespace_ShouldThrowArgumentException()
+    [Theory]
+    [InlineData("123456$")]
+    [InlineData("123 456")]
+    public void Constructor_WhenValueContainsSpecialCharactersOrWhitespace_ShouldThrowArgumentException(string value)
     {
-        var shortCode = () => new ShortCode("123456$");
+        var shortCode = () => new ShortCode(value);
         shortCode.ShouldThrow<ArgumentException>();
     }
 
     [Fact]
     public void ToString_WhenCalled_ShouldReturnValue()
     {
-        var shortCode = new ShortCode("abc1234").ToString();
-        
-        shortCode.ShouldBeOfType<string>();
-        shortCode.ShouldBe("abc1234");
+        var code = "abc1234";
+        var shortCode = new ShortCode(code);
+     
+        var result = shortCode.ToString();
+     
+        result.ShouldBe(code);
+        result.ShouldBeOfType<string>();
     }
 
     [Fact]

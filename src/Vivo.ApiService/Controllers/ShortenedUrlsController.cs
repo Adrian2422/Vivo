@@ -33,7 +33,8 @@ public class ShortenedUrlsController : ControllerBase
             x.OriginalUrl,
             $"{baseUrl}/{x.Code}",
             x.CreatedAt,
-            x.ClickCount));
+            x.ClickCount))
+            .ToList();
 
         return Ok(response);
     }
