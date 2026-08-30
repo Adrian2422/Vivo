@@ -21,7 +21,7 @@ public class ShortCodeTests
     [InlineData("")]
     public void Constructor_WhenValueIsNullOrWhiteSpace_ShouldThrowArgumentException(string? value)
     {
-        var codeWithNull = () => new ShortCode(value);
+        var codeWithNull = () => new ShortCode(value!);
         codeWithNull.ShouldThrow<ArgumentException>();
     }
 

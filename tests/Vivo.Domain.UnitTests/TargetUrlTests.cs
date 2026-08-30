@@ -21,7 +21,7 @@ public class TargetUrlTests
     [InlineData("   ")]
     public void Constructor_WhenValueIsNullOrWhiteSpace_ShouldThrowArgumentException(string? value)
     {
-        var result = () => new TargetUrl(value);
+        var result = () => new TargetUrl(value!);
         result.ShouldThrow<ArgumentException>();
     }
 
