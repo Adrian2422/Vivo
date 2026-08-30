@@ -3,8 +3,10 @@
     <PropertyGroup>
         <TargetFramework>net10.0</TargetFramework>
         <Configuration Condition="'$(Configuration)' == ''">Release</Configuration>
+        <WebProjectDir>src/Vivo.Web</WebProjectDir>
     </PropertyGroup>
 
+    <!-- .NET Targets -->
     <Target Name="RestoreSolution">
         <Message Text="=== RESTORE SOLUTION ===" Importance="high"/>
         <Exec Command="dotnet restore Vivo.slnx" />
@@ -16,12 +18,12 @@
     </Target>
 
     <Target Name="UnitTest">
-        <Message Text="=== RUNNING UNIT TESTS ===" Importance="high"/>
+        <Message Text="=== RUNNING .NET UNIT TESTS ===" Importance="high"/>
         <Exec Command="dotnet test Vivo.slnx --no-build --configuration $(Configuration) --filter &quot;Category!=Integration&quot;" />
     </Target>
 
     <Target Name="TestSolution">
-        <Message Text="=== RUNNING ALL TESTS ===" Importance="high"/>
+        <Message Text="=== RUNNING ALL .NET TESTS ===" Importance="high"/>
         <Exec Command="dotnet test Vivo.slnx --no-build --configuration $(Configuration)" />
     </Target>
 
@@ -30,12 +32,47 @@
         <Exec Command="dotnet tool restore" />
 
         <Message Text="=== RUNNING TESTS WITH COVERAGE ===" Importance="high"/>
-        <Exec Command="dotnet test Vivo.slnx --no-build --configuration $(Configuration) --collect:&quot;XPlat Code Coverage&quot; --results-directory ./coverage" />
+        <Exec Command='dotnet test Vivo.slnx --no-build --configuration $(Configuration) --collect:"XPlat Code Coverage" --results-directory ./coverage' />
 
-        <Message Text="=== GENERATING HTML REPORT ===" Importance="high"/>
-        <Exec Command="dotnet reportgenerator -reports:coverage/**/coverage.cobertura.xml -targetdir:CoverageReport -reporttypes:Html" />
+        <Message Text="=== GENERATING MERGED COBERTURA &amp; HTML REPORT ===" Importance="high"/>
+        <Exec Command='dotnet reportgenerator -reports:coverage/**/coverage.cobertura.xml -targetdir:coverage "-reporttypes:Cobertura;Html"' />
     </Target>
 
-    <Target Name="All" DependsOnTargets="RestoreSolution;BuildSolution;Coverage" />
+    <!-- Web (Angular) Targets -->
+    <Target Name="WebRestore">
+        <Message Text="=== RESTORE WEB DEPENDENCIES ===" Importance="high"/>
+        <Exec Command="npm ci" WorkingDirectory="$(WebProjectDir)" />
+    </Target>
 
+    <Target Name="WebFormat">
+        <Message Text="=== FORMAT WEB PROJECT ===" Importance="high"/>
+        <Exec Command="npm run format" WorkingDirectory="$(WebProjectDir)" />
+    </Target>
+
+    <Target Name="WebLint">
+        <Message Text="=== LINT WEB PROJECT ===" Importance="high"/>
+        <Exec Command="npm run lint" WorkingDirectory="$(WebProjectDir)" />
+    </Target>
+
+    <Target Name="WebTest">
+        <Message Text="=== RUNNING WEB TESTS ===" Importance="high"/>
+        <Exec Command="npm run test:once" WorkingDirectory="$(WebProjectDir)" />
+    </Target>
+
+    <Target Name="WebCoverage">
+        <Message Text="=== RUNNING WEB TESTS WITH COVERAGE ===" Importance="high"/>
+        <Exec Command="npm run test:cov-once" WorkingDirectory="$(WebProjectDir)" />
+    </Target>
+
+    <Target Name="WebBuild">
+        <Message Text="=== BUILDING WEB PROJECT ===" Importance="high"/>
+        <Exec Command="npm run build" WorkingDirectory="$(WebProjectDir)" />
+    </Target>
+
+    <!-- Composite Targets -->
+    <Target Name="RestoreAll" DependsOnTargets="RestoreSolution;WebRestore" />
+    <Target Name="TestAll" DependsOnTargets="TestSolution;WebTest" />
+    <Target Name="CoverageAll" DependsOnTargets="Coverage;WebCoverage" />
+    <Target Name="All" DependsOnTargets="RestoreAll;WebLint;BuildSolution;WebBuild;CoverageAll" />
+    
 </Project>
