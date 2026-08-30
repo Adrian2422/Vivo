@@ -3,7 +3,7 @@ namespace Vivo.ApiService.Controllers;
 using Swashbuckle.AspNetCore.Annotations;
 using Microsoft.AspNetCore.Mvc;
 using Contracts;
-using Application.Interfaces;
+using Application.Services;
 
 [Route("api/shortened-url")]
 public class ShortenedUrlsController : ControllerBase
@@ -33,7 +33,8 @@ public class ShortenedUrlsController : ControllerBase
             x.OriginalUrl,
             $"{baseUrl}/{x.Code}",
             x.CreatedAt,
-            x.ClickCount));
+            x.ClickCount))
+            .ToList();
 
         return Ok(response);
     }

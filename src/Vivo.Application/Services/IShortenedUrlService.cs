@@ -1,4 +1,4 @@
-namespace Vivo.Application.Interfaces;
+namespace Vivo.Application.Services;
 
 using DTOs;
 

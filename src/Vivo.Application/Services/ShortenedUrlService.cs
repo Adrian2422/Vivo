@@ -1,7 +1,6 @@
 namespace Vivo.Application.Services;
 
 using DTOs;
-using Interfaces;
 using Domain.Entities;
 using Domain.ValueObjects;
 using Abstractions;
