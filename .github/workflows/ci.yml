@@ -5,11 +5,10 @@ on:
     branches: [ "feat/**", "develop", "main" ]
   pull_request:
     branches: [ "develop", "main" ]
-    
+
 permissions:
   contents: read
   pull-requests: write
-
 
 jobs:
   test:
@@ -29,29 +28,25 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/.nuget/packages
-          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj', '**/*.props') }}
           restore-keys: |
             ${{ runner.os }}-nuget-
 
       - name: Restore dependencies
-        run: dotnet restore
+        run: dotnet msbuild build.proj -t:RestoreSolution
 
       - name: Build solution
-        run: dotnet build --no-restore --configuration Release
-      
+        run: dotnet msbuild build.proj -t:BuildSolution -p:Configuration=Release
+
       # 1. PUSH TO FEATURE BRANCH (feat/*) – Only fast unit tests
       - name: Run Unit Tests
         if: startsWith(github.ref, 'refs/heads/feat/')
-        run: dotnet test --no-build --configuration Release --filter "Category!=Integration"
-      
+        run: dotnet msbuild build.proj -t:UnitTest -p:Configuration=Release
+
       # 2. PR TO DEVELOP OR MAIN – Full test suite + Code coverage report
       - name: Run All Tests & Coverage (PRs)
         if: github.event_name == 'pull_request'
-        run: |
-          dotnet test --no-build \
-                      --configuration Release \
-                      --collect:"XPlat Code Coverage" \
-                      --results-directory ./coverage
+        run: dotnet msbuild build.proj -t:Coverage -p:Configuration=Release
 
       - name: Report Code Coverage
         if: github.event_name == 'pull_request'
@@ -67,8 +62,8 @@ jobs:
         uses: marocchino/sticky-pull-request-comment@v2
         with:
           path: code-coverage-results.md
-      
-      # 3. PUSH/MERGE TO DEVELOP OR MAIN – Final verification of entire codebase
+          
+          # 3. PUSH/MERGE TO DEVELOP OR MAIN – Final verification of entire codebase
       - name: Final Full Check (Develop / Main)
         if: github.event_name == 'push' && (github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/main')
-        run: dotnet test --no-build --configuration Release
+        run: dotnet msbuild build.proj -t:TestSolution -p:Configuration=Release
