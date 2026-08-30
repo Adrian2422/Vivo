@@ -6,12 +6,12 @@ namespace Vivo.Infrastructure.UnitTests;
 public class Base62ShortCodeGeneratorTests
 {
     private readonly Base62ShortCodeGenerator _generator;
-    
+
     public Base62ShortCodeGeneratorTests()
     {
         _generator = new Base62ShortCodeGenerator();
     }
-    
+
     [Fact]
     public void Generate_WhenCalled_ShouldReturnStringWithSevenCharacters()
     {

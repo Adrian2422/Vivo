@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <OutputType>Exe</OutputType>
+    </PropertyGroup>
+
+    <Target Name="Restore">
+        <Message Text="=== RESTORE SOLUTION ===" Importance="high"/>
+        <Exec Command="dotnet restore Vivo.slnx" />
+    </Target>
+
+    <Target Name="Test">
+        <Message Text="=== RUNNING TESTS ===" Importance="high"/>
+        <Exec Command="dotnet test Vivo.slnx --no-restore" />
+    </Target>
+
+    <Target Name="Coverage">
+        <Message Text="=== RESTORE TOOLS ===" Importance="high"/>
+        <Exec Command="dotnet tool restore" />
+
+        <Message Text="=== RUNNING TESTS WITH COVERAGE ===" Importance="high"/>
+        <Exec Command="dotnet test Vivo.slnx --collect:&quot;XPlat Code Coverage&quot; --results-directory ./TestResults" />
+
+        <Message Text="=== GENERATING HTML REPORT ===" Importance="high"/>
+        <Exec Command="dotnet reportgenerator -reports:TestResults/**/coverage.cobertura.xml -targetdir:CoverageReport -reporttypes:Html" />
+    </Target>
+
+    <Target Name="All" DependsOnTargets="Restore;Coverage" />
+
+</Project>
