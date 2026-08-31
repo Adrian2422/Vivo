@@ -5,10 +5,6 @@
   <Project Path="src/Vivo.Infrastructure/Vivo.Infrastructure.csproj" />
   <Project Path="src/Vivo.Application/Vivo.Application.csproj" />
   <Project Path="src/Vivo.Domain/Vivo.Domain.csproj" />
-  <Project Path="src/Vivo.Web/Vivo.Web.esproj">
-    <BuildType Project="Debug" />
-    <Build />
-  </Project>
   <Project Path="tests/Vivo.ApiService.UnitTests/Vivo.ApiService.UnitTests.csproj" />
   <Project Path="tests/Vivo.Application.UnitTests/Vivo.Application.UnitTests.csproj" />
   <Project Path="tests/Vivo.Domain.UnitTests/Vivo.Domain.UnitTests.csproj" />

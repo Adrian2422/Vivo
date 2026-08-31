@@ -12,7 +12,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Vivo.ApiService\Vivo.ApiService.csproj" />
-    <ProjectReference Include="..\Vivo.Web\Vivo.Web.esproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -19,6 +19,11 @@
 ## or put your custom commands -------------------
 #echo 'Husky.Net is awesome!'
 
+# .NET formatting & tests
 dotnet format Vivo.slnx
-
 dotnet test Vivo.slnx --filter Category=Fast
+
+# Web lint & unit tests
+npm --prefix src/Vivo.Web run format
+npm --prefix src/Vivo.Web run lint
+npm --prefix src/Vivo.Web run test -- --watch=false
