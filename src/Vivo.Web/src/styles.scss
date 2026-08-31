@@ -1,1 +1,4 @@
-/* You can add global styles to this file, and also import other style files */
+@use '../node_modules/modern-normalize/modern-normalize.css';
+@use 'app/styles/abstracts';
+@use 'app/styles/tokens';
+@use 'app/styles/reset';
