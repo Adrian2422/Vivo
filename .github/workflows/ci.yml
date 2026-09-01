@@ -1,0 +1,165 @@
+﻿name: CI
+
+on:
+  push:
+    branches: [ "develop", "main" ]
+  pull_request:
+    branches: [ "develop", "main" ]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      dotnet: ${{ steps.filter.outputs.dotnet }}
+      web: ${{ steps.filter.outputs.web }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            dotnet:
+              - '**.cs'
+              - '**.csproj'
+              - '**.props'
+              - '**.targets'
+              - 'Vivo.slnx'
+              - 'build.proj'
+              - 'global.json'
+              - 'dotnet-tools.json'
+              - 'tests/**'
+              - '.github/workflows/ci.yml'
+            web:
+              - 'src/Vivo.Web/**'
+              - '.github/workflows/ci.yml'
+
+  dotnet:
+    name: .NET Build & Test
+    needs: changes
+    if: ${{ needs.changes.outputs.dotnet == 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: '10.0.x'
+
+      - uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj', '**/*.props') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+
+      - name: Restore & Build
+        run: |
+          dotnet restore Vivo.slnx
+          dotnet build Vivo.slnx --no-restore -c Release
+
+      - name: Run Tests with Coverage (PRs)
+        if: github.event_name == 'pull_request'
+        run: |
+          dotnet tool restore
+          dotnet test Vivo.slnx --no-build -c Release --collect:"XPlat Code Coverage" --results-directory ./coverage
+          dotnet reportgenerator -reports:coverage/**/coverage.cobertura.xml -targetdir:coverage "-reporttypes:Cobertura;Html"
+
+      - name: Run All Tests (Push)
+        if: github.event_name == 'push'
+        run: dotnet test Vivo.slnx --no-build -c Release
+
+      - name: Report .NET Coverage
+        if: github.event_name == 'pull_request'
+        uses: irongut/CodeCoverageSummary@v1.3.0
+        with:
+          filename: 'coverage/Cobertura.xml'
+          badge: true
+          format: markdown
+          output: file
+          indicators: true
+
+      - name: Add .NET Coverage Comment
+        if: github.event_name == 'pull_request'
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: dotnet-coverage
+          path: code-coverage-results.md
+
+  web:
+    name: Angular Lint, Build & Test
+    needs: changes
+    if: ${{ needs.changes.outputs.web == 'true' }}
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: src/Vivo.Web
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: 'npm'
+          cache-dependency-path: 'src/Vivo.Web/package-lock.json'
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Run ESLint
+        run: npm run lint
+
+      - name: Build Angular
+        run: npm run build
+
+      - name: Run Tests with Coverage (PRs)
+        if: github.event_name == 'pull_request'
+        run: npm run test:cov-once
+
+      - name: Run Unit Tests (Push)
+        if: github.event_name == 'push'
+        run: npm run test:once
+
+      - name: Report Web Coverage
+        if: github.event_name == 'pull_request'
+        uses: irongut/CodeCoverageSummary@v1.3.0
+        with:
+          filename: 'src/Vivo.Web/coverage/**/cobertura-coverage.xml'
+          badge: true
+          format: markdown
+          output: file
+          indicators: true
+
+      - name: Add Web Coverage Comment
+        if: github.event_name == 'pull_request'
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: web-coverage
+          path: code-coverage-results.md
+
+  ci-status:
+    name: CI Status Gate
+    runs-on: ubuntu-latest
+    needs: [dotnet, web]
+    if: always()
+    steps:
+      - name: Evaluate overall status
+        run: |
+          DOTNET_RESULT="${{ needs.dotnet.result }}"
+          WEB_RESULT="${{ needs.web.result }}"
+
+          echo "Status .NET: $DOTNET_RESULT"
+          echo "Status Web:  $WEB_RESULT"
+
+          if [ "$DOTNET_RESULT" = "failure" ] || [ "$DOTNET_RESULT" = "cancelled" ] || \
+             [ "$WEB_RESULT" = "failure" ] || [ "$WEB_RESULT" = "cancelled" ]; then
+            echo "Error: At least one of the executed jobs has failed."
+            exit 1
+          fi
+
+          echo "Success: All active tests/builds passed correctly (or were intentionally skipped)."
