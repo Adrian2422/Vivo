@@ -1,0 +1,39 @@
+@font-face {
+  font-family: 'Archivo Local';
+  src:
+    url('/fonts/ArchivoNarrow-VariableFont_wght.woff2') format('woff2-variations'),
+    url('/fonts/ArchivoNarrow-VariableFont_wght.woff2') format('woff2');
+  font-weight: 200 1000;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Inter Local';
+  src:
+    url('/fonts/Inter-VariableFont_opsz,wght.woff2') format('woff2-variations'),
+    url('/fonts/Inter-VariableFont_opsz,wght.woff2') format('woff2');
+  font-weight: 200 1000;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'SpaceMono Local';
+  src:
+    url('/fonts/SpaceMono-Regular.woff2') format('woff2-variations'),
+    url('/fonts/SpaceMono-Regular.woff2') format('woff2');
+  font-weight: 200 1000;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'GeistMono Local';
+  src:
+    url('/fonts/GeistMono-VariableFont_wght.woff2') format('woff2-variations'),
+    url('/fonts/GeistMono-VariableFont_wght.woff2') format('woff2');
+  font-weight: 200 1000;
+  font-style: normal;
+  font-display: swap;
+}

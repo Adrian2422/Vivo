@@ -1,0 +1,91 @@
+@use 'abstracts' as a;
+@use 'tokens' as t;
+
+.app-card {
+  display: flex;
+  flex-direction: column;
+
+  padding: var(--space-2);
+
+  @include a.shadow();
+  @include a.border();
+
+  &__header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-2);
+  }
+
+  &__title {
+    font-weight: bold;
+    font-size: var(--font-size-body-sm);
+    color: var(--color-text-secondary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &__badge {
+    padding: var(--space-1);
+    text-align: center;
+    font-size: var(--font-size-body-sm);
+    font-weight: bold;
+    text-transform: uppercase;
+    background: var(--color-highlight-bg);
+    color: var(--color-highlight-text);
+    user-select: none;
+
+    @include a.shadow-sm();
+    @include a.border();
+  }
+
+  &__body {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    background: var(--color-primary-bg);
+    padding: var(--space-2);
+
+    @include a.border();
+  }
+
+  &__url {
+    font-family: 'GeistMono Local', sans-serif;
+    font-weight: bold;
+    font-size: var(--font-size-body-sm);
+    color: var(--color-primary-text);
+  }
+
+  &__copy-btn {
+    @include a.reset-styles();
+    @include a.border();
+    @include a.shadow-sm();
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-2);
+    text-align: center;
+    font-size: var(--font-size-lg);
+    font-weight: bold;
+    text-transform: uppercase;
+    background: var(--color-accent-bg);
+    color: var(--color-accent-text);
+    cursor: pointer;
+    user-select: none;
+
+    &:hover,
+    &:active {
+      background: var(--color-accent-bg-hover);
+    }
+  }
+
+  &__copy-icon {
+    width: var(--icon-size-sm);
+    height: var(--icon-size-sm);
+  }
+}

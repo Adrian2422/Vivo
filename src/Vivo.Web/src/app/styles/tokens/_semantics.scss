@@ -1,0 +1,38 @@
+@use 'primitives' as p;
+
+:root {
+  --color-primary-bg: #{p.$color-blue-600};
+  --color-primary-bg-hover: #{p.$color-blue-800};
+  --color-primary-text: #{p.$color-zinc-100};
+
+  --color-accent-bg: #{p.$color-yellow-400};
+  --color-accent-bg-hover: #{p.$color-yellow-500};
+  --color-accent-text: #{p.$color-yellow-900};
+
+  --color-highlight-bg: #{p.$color-pink-500};
+  --color-highlight-bg-hover: #{p.$color-pink-600};
+  --color-highlight-text: #{p.$color-zinc-100};
+
+  --color-bg-surface: #{p.$color-white};
+  --color-text-main: #{p.$color-zinc-900};
+  --color-text-secondary: #{p.$color-zinc-700};
+
+  --color-bg-app: #{p.$color-zinc-100};
+  --color-border: #{p.$color-zinc-950};
+  --color-shadow: #{p.$color-zinc-950};
+
+  --icon-size-sm: #{p.$size-4};
+  --icon-size-md: #{p.$size-6};
+  --icon-size-lg: #{p.$size-8};
+
+  --control-height-sm: #{p.$size-8};
+  --control-height-md: #{p.$size-10};
+  --control-height-lg: #{p.$size-12};
+
+  --font-size-caption: #{p.$font-size-xs};
+  --font-size-body-sm: #{p.$font-size-sm};
+  --font-size-body-md: #{p.$font-size-md};
+  --font-size-title-sm: #{p.$font-size-lg};
+  --font-size-title-md: #{p.$font-size-xl};
+  --font-size-title-lg: #{p.$font-size-3xl};
+}

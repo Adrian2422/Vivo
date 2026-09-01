@@ -1,0 +1,24 @@
+@use 'abstracts' as a;
+
+.app {
+  &-header {
+    padding: 0 1rem;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+
+    border-bottom: 2px solid var(--color-border);
+    @include a.shadow();
+  }
+
+  &-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+
+    &-container {
+    }
+  }
+
+  &-button-container {
+  }
+}
