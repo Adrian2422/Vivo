@@ -1,0 +1,8 @@
+$space-base: 0.25rem;
+$space-multipliers: 1, 2, 3, 4, 6, 8, 12, 16;
+
+:root {
+  @each $multi in $space-multipliers {
+    --space-#{$multi}: #{$multi * $space-base};
+  }
+}

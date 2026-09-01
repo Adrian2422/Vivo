@@ -1,4 +1,23 @@
 @use '../node_modules/modern-normalize/modern-normalize.css';
 @use 'app/styles/abstracts';
 @use 'app/styles/tokens';
-@use 'app/styles/reset';
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  overflow: hidden;
+  box-sizing: border-box;
+  background-color: var(--color-bg-app);
+  color: var(--color-text-main);
+  font-family: 'Archivo Local', sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+}
+
+app-root {
+  display: block;
+  height: 100%;
+}

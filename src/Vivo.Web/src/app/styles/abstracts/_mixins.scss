@@ -1,0 +1,29 @@
+@mixin shadow() {
+  box-shadow: 5px 5px 0 0 var(--color-shadow);
+}
+
+@mixin shadow-sm() {
+  box-shadow: 2px 2px 0 0 var(--color-shadow);
+}
+
+@mixin border() {
+  border: 2px solid var(--color-border);
+}
+
+@mixin border-inner() {
+  border-bottom: 2px solid var(--color-border);
+}
+
+@mixin reset-styles() {
+  all: unset;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  border: none;
+  background: none;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  color: inherit;
+  outline: none;
+}
