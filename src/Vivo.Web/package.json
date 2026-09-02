@@ -10,8 +10,8 @@
     "test:once": "ng test --no-watch",
     "test:cov": "ng test --coverage",
     "test:cov-once": "ng test --coverage --no-watch",
-    "lint": "ng lint",
-    "lint:fix": "ng lint --fix",
+    "lint": "eslint",
+    "lint:fix": "eslint --fix",
     "format": "prettier . --write"
   },
   "private": true,

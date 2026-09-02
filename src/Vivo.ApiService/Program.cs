@@ -5,10 +5,8 @@ using Vivo.Infrastructure.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add service defaults & Aspire client integrations.
 builder.AddServiceDefaults();
 
-// Add services to the container.
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddProblemDetails();
@@ -16,7 +14,6 @@ builder.Services.AddProblemDetails();
 builder.AddInfrastructureServices();
 builder.Services.AddApplicationServices();
 
-// Swagger/OpenAPI
 if (builder.Environment.IsDevelopment())
 {
     builder.Services.AddSwaggerGen(options =>
