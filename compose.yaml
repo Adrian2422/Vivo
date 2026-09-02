@@ -35,6 +35,7 @@
         condition: service_completed_successfully
 
   web:
+    profiles: ["prod"]
     image: vivo-web:latest
     ports:
       - "8080:80"
