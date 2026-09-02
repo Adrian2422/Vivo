@@ -2,6 +2,10 @@
   box-shadow: 5px 5px 0 0 var(--color-shadow);
 }
 
+@mixin shadow-invalid() {
+  box-shadow: 5px 5px 0 0 var(--color-invalid);
+}
+
 @mixin shadow-sm() {
   box-shadow: 2px 2px 0 0 var(--color-shadow);
 }

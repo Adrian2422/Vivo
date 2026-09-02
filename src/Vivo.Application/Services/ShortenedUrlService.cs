@@ -40,6 +40,7 @@ public class ShortenedUrlService : IShortenedUrlService
         var items = await _repository.GetRecentShortenedUrls(cancellationToken);
 
         return items.Select(x => new ShortenedUrlDto(
+            x.Id,
             x.Code,
             x.OriginalUrl,
             x.CreatedAt,

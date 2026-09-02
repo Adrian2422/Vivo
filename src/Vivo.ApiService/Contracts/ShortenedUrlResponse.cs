@@ -1,9 +1,12 @@
-﻿namespace Vivo.ApiService.Contracts;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Vivo.ApiService.Contracts;
 
 public sealed record ShortenedUrlResponse(
-    string Code,
-    string OriginalUrl,
-    string ShortUrl,
-    DateTime CreatedAt,
-    int ClickCount
+     [property: Required] Guid Id,
+     [property: Required] string Code,
+     [property: Required] string OriginalUrl,
+     [property: Required] string ShortUrl,
+     [property: Required] DateTime CreatedAt,
+     [property: Required] int ClickCount
 );

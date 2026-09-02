@@ -40,12 +40,18 @@
     display: flex;
     flex-flow: column;
     gap: var(--space-4);
-    width: 100%;
 
     @include a.respond-above(md) {
       flex-flow: row;
       justify-content: center;
     }
+  }
+
+  &__form-container {
+    display: flex;
+    flex-flow: column;
+    gap: var(--space-2);
+    width: 100%;
   }
 
   &__form-input {
@@ -54,13 +60,21 @@
     @include a.shadow();
 
     padding: var(--space-2);
-    flex: 1;
     font-family: 'GeistMono Local', sans-serif;
     font-weight: bold;
     font-size: var(--font-size-body-sm);
 
     &::placeholder {
       color: var(--color-text-secondary);
+    }
+
+    &--invalid {
+      @include a.shadow-invalid();
+      border-color: var(--color-invalid);
+
+      &::placeholder {
+        color: var(--color-invalid);
+      }
     }
   }
 
@@ -70,7 +84,7 @@
     @include a.shadow();
 
     padding: var(--space-2);
-    flex: 1;
+    margin-bottom: auto;
     text-align: center;
     font-size: var(--font-size-body-md);
     font-weight: bold;
@@ -79,10 +93,21 @@
     color: var(--color-primary-text);
     cursor: pointer;
 
+    @include a.respond-above(md) {
+      width: 100px;
+    }
+
     &:hover,
     &:active {
       background: var(--color-primary-bg-hover);
     }
+  }
+
+  &__form-error {
+    height: var(--space-4);
+    margin: 0;
+    font-size: var(--font-size-body-sm);
+    color: var(--color-invalid);
   }
 
   &__recent {

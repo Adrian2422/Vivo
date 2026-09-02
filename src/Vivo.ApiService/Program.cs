@@ -19,6 +19,7 @@ if (builder.Environment.IsDevelopment())
     builder.Services.AddSwaggerGen(options =>
     {
         options.SwaggerDoc("v1", new OpenApiInfo { Title = "Vivo API", Version = "v1" });
+        options.SupportNonNullableReferenceTypes();
         options.EnableAnnotations();
     });
 }

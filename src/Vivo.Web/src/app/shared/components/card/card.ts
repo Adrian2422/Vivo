@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { LucideCopy } from '@lucide/angular';
+import { ShortenedUrlResponse } from '@api/model';
 
 @Component({
   imports: [LucideCopy],
@@ -7,4 +8,6 @@ import { LucideCopy } from '@lucide/angular';
   styleUrl: './card.scss',
   templateUrl: './card.html',
 })
-export class Card {}
+export class Card {
+  public readonly shortenedUrl = input.required<ShortenedUrlResponse>();
+}

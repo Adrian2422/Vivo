@@ -1,12 +1,14 @@
 <div class="app-card">
   <div class="app-card__header">
     <p class="app-card__title">
-      https://wp.pl/dddddasdfaevatbstbhsdrthbdfhbdfhdfhdfhdfhdfhdfghdfghdf
+      {{ shortenedUrl().originalUrl }}
     </p>
     <span class="app-card__badge">Nowy</span>
   </div>
   <div class="app-card__body">
-    <p class="app-card__url">https://vivo.pl/fsHtwvc</p>
+    <p class="app-card__url">
+      {{ shortenedUrl().shortUrl }}
+    </p>
     <button class="app-card__copy-btn" type="button">
       <svg lucideCopy class="app-card__copy-icon"></svg>
     </button>
