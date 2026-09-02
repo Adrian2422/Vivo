@@ -1,29 +1,27 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-## husky task runner examples -------------------
-## Note : for local installation use 'dotnet' prefix. e.g. 'dotnet husky'
+STAGED_FILES=$(git diff --cached --name-only --diff-filter=ACMR)
 
-## run all tasks
-#husky run
+if [ -z "$STAGED_FILES" ]; then
+  exit 0
+fi
 
-### run all tasks with group: 'group-name'
-#husky run --group group-name
+# .NET
+DOTNET_FILES=$(echo "$STAGED_FILES" | grep -E '\.(cs|csproj)$' || true)
 
-## run task with name: 'task-name'
-#husky run --name task-name
+if [ -n "$DOTNET_FILES" ]; then
+  echo "==> Running .NET checks..."
+  echo "$DOTNET_FILES" | xargs -r dotnet format Vivo.slnx --include
+  dotnet test Vivo.slnx --filter Category=Fast
+  echo "$DOTNET_FILES" | xargs -r git add
+fi
 
-## pass hook arguments to task
-#husky run --args "$1" "$2"
+# WEB
+WEB_FILES=$(echo "$STAGED_FILES" | grep '^src/Vivo.Web/' || true)
 
-## or put your custom commands -------------------
-#echo 'Husky.Net is awesome!'
-
-# .NET formatting & tests
-dotnet format Vivo.slnx
-dotnet test Vivo.slnx --filter Category=Fast
-
-# Web lint & unit tests
-npm --prefix src/Vivo.Web run format
-npm --prefix src/Vivo.Web run lint
-npm --prefix src/Vivo.Web run test -- --watch=false
+if [ -n "$WEB_FILES" ]; then
+  echo "==> Running Web checks..."
+  (cd src/Vivo.Web && npx lint-staged)
+  (cd src/Vivo.Web && npm run test:once)
+fi
