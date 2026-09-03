@@ -1,0 +1,4 @@
+﻿services:
+  api:
+    environment:
+      - Cors__AllowedOrigins__0=https://twojadomena.pl
