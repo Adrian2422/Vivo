@@ -1,4 +1,5 @@
 ﻿using Shouldly;
+using Vivo.Domain.Exceptions;
 using Vivo.Domain.ValueObjects;
 
 namespace Vivo.Domain.UnitTests;
@@ -22,21 +23,21 @@ public class ShortCodeTests
     public void Constructor_WhenValueIsNullOrWhiteSpace_ShouldThrowArgumentException(string? value)
     {
         var codeWithNull = () => new ShortCode(value!);
-        codeWithNull.ShouldThrow<ArgumentException>();
+        codeWithNull.ShouldThrow<InvalidShortCodeException>();
     }
 
     [Fact]
     public void Constructor_WhenLengthIsShorterThanFourCharacters_ShouldThrowArgumentException()
     {
         var shortCode = () => new ShortCode("123");
-        shortCode.ShouldThrow<ArgumentException>();
+        shortCode.ShouldThrow<InvalidShortCodeException>();
     }
 
     [Fact]
     public void Constructor_WhenLengthIsLongerThanTwelveCharacters_ShouldThrowArgumentException()
     {
         var shortCode = () => new ShortCode("1234567890abcd");
-        shortCode.ShouldThrow<ArgumentException>();
+        shortCode.ShouldThrow<InvalidShortCodeException>();
     }
 
     [Theory]
@@ -45,7 +46,7 @@ public class ShortCodeTests
     public void Constructor_WhenValueContainsSpecialCharactersOrWhitespace_ShouldThrowArgumentException(string value)
     {
         var shortCode = () => new ShortCode(value);
-        shortCode.ShouldThrow<ArgumentException>();
+        shortCode.ShouldThrow<InvalidShortCodeException>();
     }
 
     [Fact]

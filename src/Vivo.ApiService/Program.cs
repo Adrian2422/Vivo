@@ -1,5 +1,6 @@
 using Microsoft.OpenApi;
 using Vivo.ApiService.Extensions;
+using Vivo.ApiService.Infrastructure;
 using Vivo.Application.DependencyInjection;
 using Vivo.Infrastructure.DependencyInjection;
 
@@ -10,7 +11,7 @@ builder.AddServiceDefaults();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddProblemDetails();
-
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.AddInfrastructureServices();
 builder.Services.AddApplicationServices();
 
