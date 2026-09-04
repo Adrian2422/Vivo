@@ -1,6 +1,7 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import { LucideCopy } from '@lucide/angular';
 import { Clipboard } from '@angular/cdk/clipboard';
+import { ShortenedUrlResponse } from '@api/model';
 
 @Component({
   imports: [LucideCopy],
@@ -11,7 +12,9 @@ import { Clipboard } from '@angular/cdk/clipboard';
 export class Table {
   private readonly _clipboard = inject(Clipboard);
 
-  protected copyToClipboard(text: string): void {
-    this._clipboard.copy(text);
+  public readonly data = input.required<ShortenedUrlResponse[]>();
+
+  protected copyToClipboard(shortUrl: string): void {
+    this._clipboard.copy(shortUrl);
   }
 }

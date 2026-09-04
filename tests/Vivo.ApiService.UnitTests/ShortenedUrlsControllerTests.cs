@@ -35,10 +35,11 @@ public class ShortenedUrlsControllerTests
     {
         var cancellationToken = CancellationToken.None;
         var now = DateTime.UtcNow;
+        var id = Guid.NewGuid();
 
         var urls = new List<ShortenedUrlDto>
         {
-            new ("aaaaaaa", "https://wp.pl", now, 0)
+            new (id,"aaaaaaa", "https://wp.pl", now, 0)
         };
 
         _serviceMock
@@ -81,7 +82,12 @@ public class ShortenedUrlsControllerTests
         var originalUrl = "https://wp.pl";
         var code = "aaaaaaa";
         DateTime? expiresAt = null;
-        var request = new CreateShortenedUrlRequest(originalUrl, expiresAt);
+
+        var request = new CreateShortenedUrlRequest()
+        {
+            OriginalUrl = originalUrl,
+            RequestedExpiresAt = expiresAt
+        };
         var response = new CreateShortenedUrlResponse($"https://localhost:5001/{code}");
 
         _serviceMock

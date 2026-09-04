@@ -6,27 +6,42 @@
     </p>
   </section>
   <section class="app-main-screen__form-section">
-    <form class="app-main-screen__form" (ngSubmit)="send()">
-      <input
-        class="app-main-screen__form-input"
-        type="text"
-        placeholder="https://twoj-bardzo-dlugi-url.com/..."
-      />
+    <form [formRoot]="shortenUrlForm" class="app-main-screen__form">
+      <div class="app-main-screen__form-container">
+        <input
+          class="app-main-screen__form-input"
+          [class.app-main-screen__form-input--invalid]="shortenUrlForm.originalUrl().invalid()"
+          type="text"
+          placeholder="https://twoj-bardzo-dlugi-url.com/..."
+          [formField]="shortenUrlForm.originalUrl"
+        />
+        <p class="app-main-screen__form-error">
+          @if (shortenUrlForm.originalUrl().errors().length) {
+            {{ shortenUrlForm.originalUrl().errors()[0].kind }}
+          }
+        </p>
+      </div>
       <button class="app-main-screen__form-btn" type="submit">Skróć</button>
     </form>
   </section>
-  <section class="app-main-screen__recent">
-    <p class="app-main-screen__recent-title">Ostatnio skrócone linki</p>
-    @if (isMobile()) {
-      <div class="app-main-screen__recent-cards">
-        <app-card />
-        <app-card />
-        <app-card />
-        <app-card />
-        <app-card />
-      </div>
-    } @else {
-      <app-table />
-    }
-  </section>
+  @if (recentUrls.isLoading()) {
+    <p>Ładowanie...</p>
+  }
+  @if (recentUrls.error()) {
+    <p>Błąd...</p>
+  }
+  @if (recentUrls.value(); as recentUrls) {
+    <section class="app-main-screen__recent">
+      <p class="app-main-screen__recent-title">Ostatnio skrócone linki</p>
+      @if (isMobile()) {
+        <div class="app-main-screen__recent-cards">
+          @for (url of recentUrls; track $index) {
+            <app-card [shortenedUrl]="url" />
+          }
+        </div>
+      } @else {
+        <app-table [data]="recentUrls" />
+      }
+    </section>
+  }
 </main>

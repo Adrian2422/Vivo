@@ -23,12 +23,15 @@ public class ShortenedUrlsController : ControllerBase
         OperationId = "GetRecentShortenedUrls",
         Tags = ["ShortenedUrls"]
     )]
+    [Consumes("application/json")]
+    [Produces("application/json")]
     public async Task<ActionResult<List<ShortenedUrlResponse>>> GetRecentShortenedUrls(CancellationToken cancellationToken)
     {
         var items = await _service.GetRecentShortenedUrlsAsync(cancellationToken);
         var baseUrl = $"{Request.Scheme}://{Request.Host}";
 
         var response = items.Select(x => new ShortenedUrlResponse(
+            x.Id,
             x.Code,
             x.OriginalUrl,
             $"{baseUrl}/{x.Code}",
@@ -46,6 +49,8 @@ public class ShortenedUrlsController : ControllerBase
         OperationId = "CreateAsync",
         Tags = ["ShortenedUrls"]
     )]
+    [Consumes("application/json")]
+    [Produces("application/json")]
     public async Task<ActionResult<CreateShortenedUrlResponse>> CreateAsync(
         [FromBody] CreateShortenedUrlRequest request,
         CancellationToken cancellationToken)
@@ -63,6 +68,7 @@ public class ShortenedUrlsController : ControllerBase
         OperationId = "RedirectToOriginal",
         Tags = ["ShortenedUrls"]
     )]
+    [Consumes("application/json")]
     [Produces("text/html")]
     [ProducesResponseType(StatusCodes.Status302Found)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
