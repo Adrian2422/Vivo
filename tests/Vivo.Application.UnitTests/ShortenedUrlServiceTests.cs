@@ -1,5 +1,6 @@
 ﻿using Vivo.Application.DTOs;
 using Vivo.Domain.Entities;
+using Vivo.Domain.Exceptions;
 
 namespace Vivo.Application.UnitTests;
 
@@ -87,7 +88,7 @@ public class ShortenedUrlServiceTests
 
         var result = () => _service.CreateShortUrlAsync(invalidUrl, null, cancellationToken);
 
-        await result.ShouldThrowAsync<ArgumentException>();
+        await result.ShouldThrowAsync<InvalidOriginalUrlException>();
 
         _repositoryMock.VerifyNoOtherCalls();
         _codeGeneratorMock.VerifyNoOtherCalls();

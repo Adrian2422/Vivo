@@ -1,4 +1,5 @@
 ﻿using Shouldly;
+using Vivo.Domain.Exceptions;
 using Vivo.Domain.ValueObjects;
 
 namespace Vivo.Domain.UnitTests;
@@ -22,7 +23,7 @@ public class TargetUrlTests
     public void Constructor_WhenValueIsNullOrWhiteSpace_ShouldThrowArgumentException(string? value)
     {
         var result = () => new TargetUrl(value!);
-        result.ShouldThrow<ArgumentException>();
+        result.ShouldThrow<InvalidOriginalUrlException>();
     }
 
 
@@ -32,7 +33,7 @@ public class TargetUrlTests
         var url = "some-random-text";
 
         var result = () => new TargetUrl(url);
-        result.ShouldThrow<ArgumentException>();
+        result.ShouldThrow<InvalidOriginalUrlException>();
     }
 
     [Fact]
@@ -41,7 +42,7 @@ public class TargetUrlTests
         var url = "lorem://wp.pl";
 
         var result = () => new TargetUrl(url);
-        result.ShouldThrow<ArgumentException>();
+        result.ShouldThrow<InvalidOriginalUrlException>();
     }
 
     [Fact]
